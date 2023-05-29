@@ -111,7 +111,7 @@ export const FormularioPracticas = ({agregar,dato,setDato,datoTarea,setDatoTarea
                     Ingrese Tarea
                   </label>
                   <input
-                    type="text"
+                    type="date"
                     minLength={3}
                     required={true}
                     className="form-control"
