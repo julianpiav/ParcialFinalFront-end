@@ -11,12 +11,17 @@ export const PracticasProfesionalesApp = () => {
   const [ventana, setVentana] = useState(1)
   const [practicas, setPracticas]=useState([]);
   const [edicion,setEdicion]=useState(false);
-  const [dato, setDato] = useState({empresa: "", supervisor: "", fecha: "", tareas:""});
-  
+  const [tareas,setTareas]= useState([])
+  const [dato, setDato] = useState({empresa: "", supervisor: "", tareas:[]});
+  const [datoTarea, setDatoTarea]=useState({nombreTarea:"", fechaTarea:""})
+
   const agregarPractica = (practica) => {
-    setPracticas([...practicas, practica])
-    postPracticas(practica);
-  
+    const practicaConTareas={
+      ...practica,
+      tareas : tareas
+    }
+    setPracticas([...practicas,practicaConTareas])
+    postPracticas(practicaConTareas);
     console.log(practicas)
 }
 const eliminarPractica =(practica)=>{
@@ -24,14 +29,15 @@ const eliminarPractica =(practica)=>{
   deletePracticas(practica);
 }
 const editarPractica=(practica)=>{
-  setPracticas(practica.map((pr)=>{
+  elegirVentana(1)
+  setPracticas(practicas.map((pr)=>{
       if(pr.id===practica.id){
           const practicaModificada={
           ...practica,
           empresa : practica.empresa,
           supervisor : practica.semestre,
-          fecha : practica.facultad,
-          tareas : practica.programa
+          fecha : practica.fecha,
+          tareas : practica.tareas
           }
           putPractica(practicaModificada);
           return practicaModificada  
@@ -84,7 +90,8 @@ useEffect(()=>{
               editar={(practicaEditada) => {
                 editarPractica(practicaEditada);
               }}
-              numeroAsignado={practicas.length+1}/>
+              datoTarea={datoTarea}
+              setDatoTarea={setDatoTarea}/>
         </div>
         <div
           className={ventana === 2 ? "content  active-content" : "content"}

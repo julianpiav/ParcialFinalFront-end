@@ -1,4 +1,8 @@
-export const FormularioPracticas = ({agregar,dato,setDato,edicion,setEdicion,editar,numeroAsignado}) => {
+import { useState } from "react";
+
+export const FormularioPracticas = ({agregar,dato,setDato,datoTarea,setDatoTarea, edicion,setEdicion,editar}) => {
+  const [inputList, setinputList]= useState([{nombreTarea:'', fechaTarea:''}]);
+
   const enviar = (practica) => {
     if (edicion === true) {
       editarPractica(practica);
@@ -7,32 +11,47 @@ export const FormularioPracticas = ({agregar,dato,setDato,edicion,setEdicion,edi
     }
   };
   const guardarPractica = () => {
-    agregar(dato);
+    agregar(dato,datoTarea);
     setDato({
       empresa: "",
       supervisor: "",
-      fecha: "",
-      tareas: "",
     });
+    setDatoTarea({
+      nombreTarea:"",
+      fechaTarea:""
+    })
   };
-
+  const agregarInput=()=>{
+    let inputNuevo={
+      nombreTarea:"",
+      fechaTarea:""
+    }
+    setinputList([...inputList, inputNuevo]);
+  }
+  const borrarInput=(index)=>{
+    let inputBien=[...inputList];
+    inputBien.splice(index,1)
+    setinputList(inputBien)
+  }
   const editarPractica = () => {
-    editar(dato);
+    editar(dato, datoTarea);
     setDato({
       empresa: "",
       supervisor: "",
-      fecha: "",
-      tareas: "",
     });
+    setDatoTarea({
+      nombreTarea:"",
+      fechaTarea:""
+    })
     setEdicion(false);
   };
+  
 
   return (
     <>
     {""}
     <div className="mt-5">
         <form onSubmit={enviar}>
-          <div className="col">
             <div className="col-12">
               <div className="form-group">
                 <input
@@ -48,12 +67,10 @@ export const FormularioPracticas = ({agregar,dato,setDato,edicion,setEdicion,edi
                   }
                 />
                 <label htmlFor="empresa" className="form-label">
-                  Nombre de Empresa o Institucion
+                  Ingrese Nombre de Empresa o Institucion
                 </label>
               </div>
             </div>
-          </div>
-          <div className="col">
             <div className="col-12">
               <div className="form-group">
                 <input
@@ -69,45 +86,52 @@ export const FormularioPracticas = ({agregar,dato,setDato,edicion,setEdicion,edi
                   }
                 />
                 <label htmlFor="supervisor" className="form-label">
-                  Nombre de Supervisor
+                  Ingrese Nombre de Supervisor o Superior
                 </label>
               </div>
             </div>
-          </div>  
-            <div className="col">
-              <div className="col-6 ">
-                    <div className="App">
-                    <input
-                      type="text"
-                      minLength={3}
-                      className="form-control"
-                      id="tareas"
-                      placeholder=" "
-                      value={dato.tareas}
-                      onChange={(event) =>
-                        setDato({ ...dato, tareas: event.target.value })
-                      }
-                    />
-                    <label htmlFor="tareas" className="form-label">
-                      Tarea
-                    </label>
-                    <input
+            <div className="col-6">
+              {inputList.map((index)=>{
+              return(
+                <>
+                <div key={index} className="form-control" >
+                  <input
                     type="text"
                     minLength={3}
+                    required={true}
                     className="form-control"
-                    id="fecha"
+                    id="nombreTarea"
                     placeholder=" "
-                    value={dato.fecha}
+                    value={datoTarea.nombreTarea}
                     onChange={(event) =>
-                      setDato({ ...dato, fecha: event.target.value }) 
-                    }          
-                    />
-                    <label htmlFor="fecha" className="form-label">
-                      Fecha
-                    </label>
-                    <button className="btn btn-info" >Eliminar </button>
-                    </div>
-              </div>
+                      setDato({ ...datoTarea, nombreTarea: event.target.value })
+                    }
+                  />
+                  <label htmlFor="nombreTarea" className="form-label">
+                    Ingrese Tarea
+                  </label>
+                  <input
+                    type="text"
+                    minLength={3}
+                    required={true}
+                    className="form-control"
+                    id="fechaTarea"
+                    placeholder=" "
+                    value={datoTarea.fechaTarea}
+                    onChange={(event) =>
+                      setDato({ ...datoTarea, fechaTarea: event.target.value })
+                    }
+                  />
+                  <label htmlFor="nombreTarea" className="form-label">
+                    Ingrese Tarea
+                  </label>
+
+                  <button onClick={()=>borrarInput(index)}>Quitar Tarea</button>
+                </div>
+                </>
+              )
+              })}
+                <button onClick={agregarInput}>Agregar Tarea</button>
             </div>
           <br />
           <div className="row">
