@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-export const TablaPracticas = ({ listaPracticas}) => {
+export const TablaPracticas = ({ listaPracticas,editarPractica, eliminarPractica }) => {
 
     return (
         <>
@@ -12,6 +11,7 @@ export const TablaPracticas = ({ listaPracticas}) => {
             <table className="table">
                 <thead>
                     <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Empresa/Institucion</th>
                         <th scope="col">Supervisor</th>
                         <th scope="col">Tareas</th>
@@ -28,7 +28,7 @@ export const TablaPracticas = ({ listaPracticas}) => {
                                 <td>{practica.fecha}</td>
                                 <td>{practica.tareas}</td>
                                 <td>
-                                    <button className="btn btn-info">Editar</button>{" "} 
+                                    <button className="btn btn-info"> Editar</button>{" "} 
                                     <button className="btn btn-info" >Eliminar </button>
                                 </td>
                             </tr>)

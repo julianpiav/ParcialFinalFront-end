@@ -1,21 +1,51 @@
-import React, { useState } from "react";
-export const FormularioPracticas = ({agregar,dato,setDato}) => {
-  const [tareas, setTareas]= useState([{nombreTarea:"", fecha:""}]);
+export const FormularioPracticas = ({agregar,dato,setDato,edicion,setEdicion,editar,numeroAsignado}) => {
+  const enviar = (practica) => {
+    if (edicion === true) {
+      editarPractica(practica);
+    } else {
+      guardarPractica(practica);
+    }
+  };
+  const guardarPractica = () => {
+    agregar(dato);
+    setDato({
+      empresa: "",
+      supervisor: "",
+      fecha: "",
+      tareas: "",
+    });
+  };
+
+  const editarPractica = () => {
+    editar(dato);
+    setDato({
+      nombre: "",
+      supervisor: "",
+      fecha: "",
+      tareas: "",
+    });
+    setEdicion(false);
+  };
 
   return (
     <>
     {""}
     <div className="mt-5">
-        <form onSubmit>
+        <form onSubmit={enviar}>
           <div className="col">
             <div className="col-12">
               <div className="form-group">
                 <input
                   type="text"
+                  required={true}
                   minLength={3}
                   className="form-control"
                   id="empresa"
                   placeholder=" "
+                  value={dato.empresa}
+                  onChange={(event) =>
+                    setDato({ ...dato, empresa: event.target.value })
+                  }
                 />
                 <label htmlFor="empresa" className="form-label">
                   Nombre de Empresa o Institucion
@@ -29,9 +59,14 @@ export const FormularioPracticas = ({agregar,dato,setDato}) => {
                 <input
                   type="text"
                   minLength={3}
+                  required={true}
                   className="form-control"
                   id="supervisor"
                   placeholder=" "
+                  value={dato.supervisor}
+                  onChange={(event) =>
+                    setDato({ ...dato, supervisor: event.target.value })
+                  }
                 />
                 <label htmlFor="supervisor" className="form-label">
                   Nombre de Supervisor
@@ -41,18 +76,31 @@ export const FormularioPracticas = ({agregar,dato,setDato}) => {
           </div>  
             <div className="col">
               <div className="col-6 ">
-              <button >Agregar otra Tarea</button>
                     <div className="App">
                     <input
-                      name="nombreTarea"
+                      type="text"
+                      minLength={3}
+                      className="form-control"
+                      id="tareas"
                       placeholder=" "
+                      value={dato.tareas}
+                      onChange={(event) =>
+                        setDato({ ...dato, tareas: event.target.value })
+                      }
                     />
-                    <label htmlFor="tarea" className="form-label">
+                    <label htmlFor="tareas" className="form-label">
                       Tarea
                     </label>
                     <input
-                      name="fecha"
-                      placeholder=" "
+                    type="text"
+                    minLength={3}
+                    className="form-control"
+                    id="fecha"
+                    placeholder=" "
+                    value={dato.fecha}
+                    onChange={(event) =>
+                      setDato({ ...dato, fecha: event.target.value }) 
+                    }          
                     />
                     <label htmlFor="fecha" className="form-label">
                       Fecha
@@ -69,7 +117,7 @@ export const FormularioPracticas = ({agregar,dato,setDato}) => {
                 </button>
             </div>
           </div>
-          <p>{JSON.stringify(tareas)}</p>
+          <p></p>
         </form>
       </div>
     </>
