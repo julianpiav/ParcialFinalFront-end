@@ -1,20 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Estilos/PracticasProfesionales.css";
 import { FormularioPracticas } from "./Componentes/FormularioPracticas";
 import { TablaPracticas } from "./Componentes/TablaPracticas";
+import { postPracticas } from "./Peticiones/postPractica";
+import { deletePracticas } from "./Peticiones/deletePractica";
+import { putPractica } from "./Peticiones/putPractica";
+import { getPracticas } from "./Peticiones/getPracticas";
 
 export const PracticasProfesionalesApp = () => {
   const [ventana, setVentana] = useState(1)
   const [practicas, setPracticas]=useState([]);
   const [edicion,setEdicion]=useState(false);
-  const [dato, setDato] = useState({ id: practicas.length+1, empresa: "", supervisor: "", fecha: "", tareas:""});
+  const [dato, setDato] = useState({empresa: "", supervisor: "", fecha: "", tareas:""});
   
   const agregarPractica = (practica) => {
     setPracticas([...practicas, practica])
+    postPracticas(practica);
+  
     console.log(practicas)
 }
 const eliminarPractica =(practica)=>{
   setPracticas(practicas.filter((pr)=>pr.id!== practica.id));
+  deletePracticas(practica);
 }
 const editarPractica=(practica)=>{
   setPracticas(practica.map((pr)=>{
@@ -26,11 +33,19 @@ const editarPractica=(practica)=>{
           fecha : practica.facultad,
           tareas : practica.programa
           }
+          putPractica(practicaModificada);
           return practicaModificada  
       }
       return pr;
   }))
 }
+const carguePractica=async()=>{
+  const datos = await getPracticas();
+  setPracticas(datos);
+}
+useEffect(()=>{
+  carguePractica();
+})
 
 
   const elegirVentana = (index) => {

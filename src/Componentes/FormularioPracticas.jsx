@@ -19,7 +19,7 @@ export const FormularioPracticas = ({agregar,dato,setDato,edicion,setEdicion,edi
   const editarPractica = () => {
     editar(dato);
     setDato({
-      nombre: "",
+      empresa: "",
       supervisor: "",
       fecha: "",
       tareas: "",
