@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export const FormularioPracticas = ({agregar,dato,setDato,datoTarea,setDatoTarea, edicion,setEdicion,editar}) => {
-  const [inputList, setinputList]= useState([{nombreTarea:'', fechaTarea:''}]);
+  const [inputList, setinputList]= useState([{nombre:'', fecha:''}]);
 
   const enviar = (practica) => {
     if (edicion === true) {
@@ -23,8 +23,8 @@ export const FormularioPracticas = ({agregar,dato,setDato,datoTarea,setDatoTarea
   };
   const agregarInput=()=>{
     let inputNuevo={
-      nombreTarea:"",
-      fechaTarea:""
+      nombre:"",
+      fecha:""
     }
     setinputList([...inputList, inputNuevo]);
   }
@@ -104,7 +104,7 @@ export const FormularioPracticas = ({agregar,dato,setDato,datoTarea,setDatoTarea
                     placeholder=" "
                     value={datoTarea.nombreTarea}
                     onChange={(event) =>
-                      setDato({ ...datoTarea, nombreTarea: event.target.value })
+                      setDatoTarea({ ...datoTarea, nombreTarea: event.target.value })
                     }
                   />
                   <label htmlFor="nombreTarea" className="form-label">
@@ -119,7 +119,7 @@ export const FormularioPracticas = ({agregar,dato,setDato,datoTarea,setDatoTarea
                     placeholder=" "
                     value={datoTarea.fechaTarea}
                     onChange={(event) =>
-                      setDato({ ...datoTarea, fechaTarea: event.target.value })
+                      setDatoTarea({ ...datoTarea, fechaTarea: event.target.value })
                     }
                   />
                   <label htmlFor="nombreTarea" className="form-label">
